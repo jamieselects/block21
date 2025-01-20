@@ -19,35 +19,6 @@ async function getEvents() {
   console.log("state =>", state.events)
 }
 
-//render the events
-// function renderEvents() {
-//   eventsList.innerHTML = ""; //clear the list
-
-//   state.events.forEach((event, index) => {
-//   const eventItem = document.createElement("li");
-//   const date = new Date(event.date);
-//   eventItem.innerHTML =  
-//       `<h1>${event.name}</h1>
-//       <p>${date}</p>
-//       <p>${event.location}</p>
-//       <p>${event.description}</p>
-//       <p>${event.description}</p>
-//       <button class="deleteButton" data-index="${index}">Delete</button>
-//       `;
-//       eventsList.appendChild(eventItem);
-//   });
-
-//   document.querySelectorAll(".deleteButton").forEach((button) => {
-//     button.addEventListener("click", (e) => {
-//       const index = e.target.getAttribute("data-index");
-//       deleteEvent(index);
-//     });
-//   });
-// }
-
-
-
-
 function renderEvents() {
   const eventCards = state.events.map(event => {
     console.log('event in map >', event);
@@ -78,26 +49,28 @@ function renderEvents() {
   })
 } 
 
-//add event functionality
+//add event listener to the form submission button
 form.addEventListener("submit", (event) => {
   event.preventDefault();
   
+  //variables for each field in the form
   const eventName = document.getElementById("eventNameInput").value.trim();
   const eventDate = document.getElementById("eventDateInput").value;
   const eventLocation = document.getElementById("eventLocationInput").value.trim();
   const eventDescription = document.getElementById("eventDescriptionInput").value.trim();
 
+  //create new object variable for form entry with each field
   const newEvent = {
     name: eventName,
     date: eventDate,
     location: eventLocation,
     description: eventDescription,
   };
+
   state.events.push(newEvent);
-  console.log("new event is",newEvent);
-  // updateEventList();
   renderEvents();
 
+  //reset the form
   form.reset;
 });
 
@@ -106,7 +79,6 @@ function deleteEvent (index) {
   state.events.splice(index, 1);
   renderEvents();
 }
-
 
 async function render() {
   await getEvents();
