@@ -1,7 +1,6 @@
 const cohort = "2410-ftb-et-web-am";
 const API_URL =  `https://fsa-crud-2aa9294fe819.herokuapp.com/api/${cohort}/events`;
 const eventsList = document.getElementById('eventsList');
-const deleteButton = document.createElement('button');
 const form = document.querySelector('form');
 const addEvent = document.getElementById('addEvent');
 
@@ -20,33 +19,32 @@ async function getEvents() {
 }
 
 function renderEvents() {
-  const eventCards = state.events.map(event => {
-    console.log('event in map >', event);
+  const eventCards = state.events.map((event, index) => {
+
     const eventProfile = document.createElement('div');
     
     const date = new Date(event.date);
-    console.log(date)
-    eventProfile.innerHTML = 
-      `<h1>${event.name}</h1>
+    
+    eventProfile.innerHTML = `
+      <h1>${event.name}</h1>
       <p>${date}</p>
       <p>${event.location}</p>
       <p>${event.description}</p>
       <p>${event.description}</p>
-      <button class="deleteButton">Delete</button>
+      <button class="deleteButton" data-index="${index}">Delete</button>
       `;
-      console.log('ID is =>', event.id)
-      eventProfile.appendChild(deleteButton);
+
       return eventProfile;
-  })
+  });
 
   eventsList.replaceChildren(...eventCards);
 
   document.querySelectorAll(".deleteButton").forEach((button) => {
-    button.addEventListener("click", (e) => {
-      const index = e.target.getAttribute("data-index");
+    button.addEventListener("click", (event) => {
+      const index = event.target.getAttribute("data-index");
       deleteEvent(index);
-    })
-  })
+    });
+  });
 } 
 
 //add event listener to the form submission button
